@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .form-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 1.5em;
+            color: #4CAF50;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .time {
+            font-size: 1em;
+            color: #000;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Heart Disease Prediction</h2>
+        <form method="post" action="/predict" id="prediction-form" onsubmit="startTimer()">
+            <label for="age">Age:</label>
+            <input type="text" name="age" required><br>
+            
+            <label for="sex">Sex (0: Female, 1: Male):</label>
+            <input type="text" name="sex" required><br>
+            
+            <label for="cp">Chest Pain Type (0-3):</label>
+            <input type="text" name="cp" required><br>
+            
+            <label for="trestbps">Resting Blood Pressure:</label>
+            <input type="text" name="trestbps" required><br>
+            
+            <label for="chol">Serum Cholestoral:</label>
+            <input type="text" name="chol" required><br>
+            
+            <label for="fbs">Fasting Blood Sugar (1: >120 mg/dl, 0: lesser=120 mg/dl):</label>
+            <input type="text" name="fbs" required><br>
+            
+            <label for="restecg">Resting Electrocardiographic Results (0-2):</label>
+            <input type="text" name="restecg" required><br>
+            
+            <label for="thalach">Maximum Heart Rate Achieved:</label>
+            <input type="text" name="thalach" required><br>
+            
+            <label for="exang">Exercise Induced Angina (1: Yes, 0: No):</label>
+            <input type="text" name="exang" required><br>
+            
+            <label for="oldpeak">ST Depression Induced by Exercise:</label>
+            <input type="text" name="oldpeak" required><br>
+            
+            <label for="slope">Slope of ST Segment (0-2):</label>
+            <input type="text" name="slope" required><br>
+            
+            <label for="ca">Number of Major Vessels Colored by Fluoroscopy:</label>
+            <input type="text" name="ca" required><br>
+            
+            <label for="thal">Thalassemia (1: Normal, 2: Fixed Defect, 3: Reversable Defect):</label>
+            <input type="text" name="thal" required><br>
+            
+            <input type="submit" value="Predict">
+        </form>
+        {% if prediction_text %}
+        <div class="result">{{ prediction_text }}</div>
+        {% endif %}
+
+        <div id="time-result" class="time"></div>
+    </div>
+
+    <script>
+        let startTime;
+        let endTime;
+
+        function startTimer() {
+            startTime = new Date().getTime();  // Capture the start time when form is submitted
+        }
+
+        window.onload = function() {
+            // Calculate and display the total time once the page is fully loaded (after receiving response)
+            if (document.getElementById('time-result').innerText) {
+                endTime = new Date().getTime(); // Capture end time when page is loaded
+                let totalTime = (endTime - startTime) / 1000; // Convert to seconds
+                document.getElementById('time-result').innerText = "Total time for prediction: " + totalTime.toFixed(2) + " seconds";
+            }
+        }
+    </script>
+
+
+</body>
+</html>
